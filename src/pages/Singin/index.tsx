@@ -5,10 +5,13 @@ import { Button } from '../../components/Button';
 import styles from './styles.module.scss';
 import api from '../../api/axios';
 import { emailRegexp } from '../../utils';
+import { setAuthentication } from '../../store/utilsSlice';
+import { useDispatch } from 'react-redux';
 
 
 export const Signin: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState<FormFields>({ email: '', password: '' });
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
@@ -62,10 +65,14 @@ export const Signin: React.FC = () => {
       if (!token) throw new Error('No token in response');
 
       localStorage.setItem('token', token);
+      
+      dispatch(setAuthentication(true));  // Update Redux state
+
       navigate('/home');
+      
     } catch (error) {
       console.error('Login failed:', error);
-      alert('Invalid credentials or server error');
+      alert('Invalid credentials');
     }
   };
 
@@ -108,6 +115,7 @@ export const Signin: React.FC = () => {
           error={errors.password}
           placeholder="Enter your password"
         />
+
         <br />
         <Button
           type="button"

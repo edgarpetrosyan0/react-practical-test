@@ -2,14 +2,18 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
 
 
-export function RequireAuth({ children }:any) {
-  const { isAuthenticated, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
-  return isAuthenticated ? children : <Navigate to="/signin" />;
+export function RequireAuth({ children }: any) {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" />;
+  }
+  return children;
 }
 
-export function RedirectIfAuth({ children }:any) {
-  const { isAuthenticated, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
-  return isAuthenticated ? <Navigate to="/home" /> : children;
+export function RedirectIfAuth({ children }: any) {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to="/home" />;
+  }
+  return children;
 }

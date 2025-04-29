@@ -1,19 +1,6 @@
 import api from "../api/axios";
 
 // Example type — update based on your backend response structure
-interface User {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  avatar:string
-
-  // "id": 7,
-  // "email": "michael.lawson@reqres.in",
-  // "first_name": "Michael",
-  // "last_name": "Lawson",
-  // "avatar": "https://reqres.in/img/faces/7-image.jpg"
-}
 
 export const getUsers = async (): Promise<User[]> => {
   try {

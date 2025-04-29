@@ -25,8 +25,15 @@ interface User {
   first_name: string;
   last_name: string;
   email: string;
-  avatar: string;
+  avatar:string
+
+  // "id": 7,
+  // "email": "michael.lawson@reqres.in",
+  // "first_name": "Michael",
+  // "last_name": "Lawson",
+  // "avatar": "https://reqres.in/img/faces/7-image.jpg"
 }
+
 
 type FormFields = {
   email: string;

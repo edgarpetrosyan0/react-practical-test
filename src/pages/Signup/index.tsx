@@ -5,10 +5,13 @@ import { Button } from '../../components/Button';
 import styles from './styles.module.scss';
 import api from '../../api/axios';
 import { emailRegexp } from '../../utils';
+import { setAuthentication } from '../../store/utilsSlice';
+import { useDispatch } from 'react-redux';
 
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState<FormFields>({ email: '', password: '' });
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
@@ -67,9 +70,11 @@ export const Signup: React.FC = () => {
     try {
       const [signupResult, signinToken] = await Promise.all([signupCall(), signinCall()]);//?????
 
-      // Store token and navigate if both actions succeeded
-      if (signinToken) {
+       if (signinToken) {
         localStorage.setItem('token', signinToken);
+        
+        dispatch(setAuthentication(true));  // Update Redux state
+
         navigate('/home');
       } else {
         console.error('Login failed after signup.');

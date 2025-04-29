@@ -1,32 +1,9 @@
-import React from 'react';
-import { Routes, BrowserRouter, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Home, NotFound, Signin, Signup, UserDetails, Users } from './pages';
-import { Navbar } from './components/Navbar';
-import useWindowSize from './hooks/useWindowSize';
 import { RedirectIfAuth, RequireAuth } from './Guard/AuthGuard';
-
-// TODO: Add route guards based on authentication state
-// - If the user IS authenticated, prevent access to `/signin` and `/signup` routes
-// - If the user is NOT authenticated, prevent access to `/home`, `/users`, and `/users/:id`
-// - You can use a `PrivateRoute` or `RequireAuth` wrapper component for protected pages
-// - Consider redirecting:
-//    - Authenticated users from `/signin` or `/signup` → to `/home`
-//    - Unauthenticated users from protected pages → to `/signin`
-
-
-function AuthLayout({ children }:any) {
-  return (
-    <>
-      <Navbar />
-      {children}
-    </>
-  );
-}
+import { AuthLayout } from './layouts/AuthLayout';
 
 function App() {
-  // TODO create useWindowSize custom hook, and store window size and device information in the redux utilsSlice.ts used detectDevice action
-  useWindowSize();
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -55,7 +32,6 @@ function App() {
               </RequireAuth>
             }
           />
-
           <Route
             path="/signin"
             element={
@@ -72,7 +48,6 @@ function App() {
               </RedirectIfAuth>
             }
           />
-
           {/* Redirect root */}
           <Route path="/" element={<Navigate to="/signin" />} />
 

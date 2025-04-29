@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const api = axios.create({
@@ -6,31 +5,41 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     "x-api-key": process.env.REACT_APP_API_KEY, 
-},
+  },
 });
 
-// Add Authorization token
+// Add Authorization token to headers
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
+}, (error) => {
+  console.error('Request error:', error.message);
+  return Promise.reject(error);
 });
 
-// Handle global error cases
+// Handle global error
 api.interceptors.response.use(
-  (response) => response,
+  (response) => response, 
   (error) => {
-      const status = error.response?.status;
-      const message = error.response?.data?.message || error.message;
-  
-      if (status) {
-        console.error(`API Error [${status}]:`, message);
-      } else if (error.request) {
-          console.error('Network Error:', error.message);
-      } 
-      return Promise.reject({status,message});
+    let status = error.response?.status;
+    let message = error.response?.data?.message || error.message;
+
+    if (!status && error.request) {
+      console.error('Network Error:', error.message);
+    } else {
+      console.error(`API Error [${status}]:`, message);
+
+      if (status === 401) {
+        console.error('Unauthorized');
+        localStorage.removeItem('token');
+        window.location.href = '/signin';
+      }
+    }
+    return Promise.reject({status, message});
   }
 );
+
 export default api;

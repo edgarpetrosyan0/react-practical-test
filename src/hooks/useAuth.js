@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthentication } from '../store/utilsSlice';
 
 export function useAuth() {
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.utils);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
-    setLoading(false);
-  }, []);
+    dispatch(setAuthentication(!!token));
+  }, [dispatch]);
 
-  return { isAuthenticated, loading };
+  return { isAuthenticated};
 }
