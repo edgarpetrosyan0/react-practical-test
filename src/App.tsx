@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Home, NotFound, Signin, Signup, UserDetails, Users } from './pages';
-import { RedirectIfAuth, RequireAuth } from './Guard/AuthGuard';
 import { AuthLayout } from './layouts/AuthLayout';
+import { RedirectIfAuth, RequireAuth } from './guard/AuthGuard';
 
 function App() {
   return (
