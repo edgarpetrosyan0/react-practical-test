@@ -1,23 +1,30 @@
 import { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
 import { getUsers } from '../../utils/requests';
 import { UserCard } from '../../components/UserCard';
-        
+import { toast } from 'react-toastify';
+import styles from './styles.module.scss';
+
+
 export const Users: React.FC = () => {
-    const [users, setUsers] = useState([]); // TODO define global type User type and , The state is to that type
+  const [users, setUsers] = useState<User[]>([]);
 
-    useEffect(() => {
-        getUsers()
-            .then(res => console.log(res))
-            .catch(() => console.log("error")) // TODO handle this error, for example use react toastify package and toast error 
-    });
+  useEffect(() => {
+    getUsers()
+      .then(res => {
+        if (res) setUsers(res);
+        else toast.error("Failed to load users.");
+      })
+      .catch(() => toast.error("Unexpected error while loading users."));
+  }, []);
 
-    return (
-        <div>
-            <h3>there show user list</h3>
-            {users.map((user) => (
-                <UserCard { ...user as any } /> // TODO as any remove after declare global User type
-            ))}
-        </div>
-    );
+  return (
+    <div>
+      <h3>User List</h3>
+      <div className={styles.container}>
+      {users.map((user) => (
+        <UserCard key={user.id} {...user} />
+      ))}
+      </div>
+    </div>
+  );
 };

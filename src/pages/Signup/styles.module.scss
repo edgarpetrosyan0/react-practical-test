@@ -1,1 +1,19 @@
-// TODO signup page styles there
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.form {
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  width: 300px;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+}

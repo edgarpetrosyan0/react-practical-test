@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import styles from "./styles.module.scss"
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>  {
@@ -12,9 +13,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 export const Input: React.FC<InputProps> = (props) => {
     const { label, inputSize = "middle", error, className, prefixIcon, prefixPosition = "start", onClickPrefix, ...restProps } = props;
-
-    const cs = `${styles.Input} ${inputSize ? styles[inputSize] : ""} ${restProps.disabled ? styles.Disabled : ""} ${error ? styles.Error : ""} ${styles[`prefix-${prefixPosition}`]}`;
-    // TODO make a global function that passes classnames with the condition, returns a string for the classname where corresponding true
+     // TODO make a global function that passes classnames with the condition, returns a string for the classname where corresponding true
     // example
     // classnames({
     //     Input: true,
@@ -23,10 +22,28 @@ export const Input: React.FC<InputProps> = (props) => {
     // }); returned "Input Disabled"
     
     // TODO replace classnames list with top logic 
-    const csInput = `${styles.inputElement} ${!error && !!restProps.value ? styles.inputSuccess : ""} ${error ? styles.inputError : ""} ${className ?? ""}`;
-
+    
+    const cs = classNames(
+        styles.Input,
+        styles[`prefix-${prefixPosition}`],
+        styles[inputSize],
+        {
+          [styles.Disabled]: restProps.disabled,
+          [styles.Error]: !!error,
+        }
+      );
+    
+      const csInput = classNames(
+        styles.inputElement,
+        {
+          [styles.inputSuccess]: !error && !!restProps.value,
+          [styles.inputError]: !!error,
+        },
+        className
+      );
+    
     return (
-        <label className={cs}>
+        <div className={cs}>
             {label && <span className={styles.Label}>{label}</span>}
             <span className={styles.InputWrapper}>
                 <input
@@ -36,6 +53,6 @@ export const Input: React.FC<InputProps> = (props) => {
                 {prefixIcon && <span className={styles.IconPrefix} onClick={onClickPrefix}>{prefixIcon}</span>}
             </span>
             {error && <span className={styles.inputErrorMessage}>{error}</span>}
-        </label>
+        </div>
     );
 };

@@ -1,1 +1,88 @@
-// TODO button component styles there
+
+  .Button {
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    padding: 0.5em 1.2em;
+    font-size: 1rem;
+    display: inline-block;
+  
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  .small {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  .middle {
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+  }
+  
+  .large {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+  }
+  
+  .primary {
+    --btn-color: var(--blue);
+  }
+  
+  .gray {
+    --btn-color: var(--gray);
+  }
+  
+  .red {
+    --btn-color: var(--red);
+  }
+  
+  .contained {
+    background-color: var(--btn-color);
+    color: var(--white);
+    border: none;
+  
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+  
+  .outlined {
+    background-color: transparent;
+    color: var(--btn-color);
+    border: 2px solid var(--btn-color);
+  
+    &:hover {
+      background-color: var(--btn-color);
+      color: var(--white);
+    }
+  }
+  
+  .text {
+    background-color: transparent;
+    color: var(--btn-color);
+    border: none;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  .link {
+    background: none;
+    color: var(--btn-color);
+    border: none;
+    padding: 0;
+    font-size: inherit;
+  
+    &:hover {
+      opacity: 0.7;
+      text-decoration: underline;
+    }
+  }
+  
