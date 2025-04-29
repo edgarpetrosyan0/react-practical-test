@@ -27,3 +27,13 @@ interface User {
   email: string;
   avatar: string;
 }
+
+type FormFields = {
+  email: string;
+  password: string;
+};
+
+type FormErrors = {
+  email: string;
+  password: string;
+};

@@ -1,11 +1,9 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Navbar: React.FC = () => {
     const navigate = useNavigate();
-    const { id } = useParams<{ id: string }>();
-    console.log(id);
     
     const handleLogout = () => {
         localStorage.removeItem('token');

@@ -1,13 +1,21 @@
 
 import axios from "axios";
 
-// Global Axios configuration with .env 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    "x-api-key": process.env.REACT_APP_API_KEY || "reqres-free-v1", 
+    "x-api-key": process.env.REACT_APP_API_KEY, 
 },
+});
+
+// Add Authorization token
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 // Handle global error cases

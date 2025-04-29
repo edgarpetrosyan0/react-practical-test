@@ -19,10 +19,9 @@ export const getUsers = async (): Promise<User[]> => {
   try {
       const response = await api.get('/users');
       console.log(response.data);
-      
       return response.data.data;
   } catch (error) {
-      console.error('Failed to fetch users:', error);
+      console.error('Failed to get users:', error);
       throw error; 
   }
 };
@@ -32,7 +31,7 @@ export const getUserById = async (id: string): Promise<User | null> => {
       const response = await api.get(`/users/${id}`);
       return response.data.data;
   } catch (error) {
-      console.error(`Failed to fetch user ${id}:`, error);
+      console.error(`Failed to get user ${id}:`, error);
       throw error;
   }
 };

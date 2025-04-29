@@ -1,22 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { detectDevice } from '../store/utilsSlice';
+
+const getDeviceMode = (width) => {
+  if (width < 768) return 'mobile';
+  if (width < 1024) return 'tablet';
+  return 'desktop';
+};
 
 const useWindowSize = () => {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+  const dispatch = useDispatch();
+
+  const handleResize = () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const mode = getDeviceMode(width);
+
+    dispatch(detectDevice({ mode, width, height }));
+  };
 
   useEffect(() => {
-    const handleResize = () =>
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-
+    handleResize(); // initial dispatch
     window.addEventListener('resize', handleResize);
-    handleResize(); // initialize on mount
-
+    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  return windowSize;
 };
 
 export default useWindowSize;

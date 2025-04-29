@@ -2,8 +2,8 @@ import React from 'react';
 import { Routes, BrowserRouter, Route, Navigate } from 'react-router-dom';
 import { Home, NotFound, Signin, Signup, UserDetails, Users } from './pages';
 import { Navbar } from './components/Navbar';
-import { useAuth } from './hooks';
 import useWindowSize from './hooks/useWindowSize';
+import { RedirectIfAuth, RequireAuth } from './Guard/AuthGuard';
 
 // TODO: Add route guards based on authentication state
 // - If the user IS authenticated, prevent access to `/signin` and `/signup` routes
@@ -13,18 +13,6 @@ import useWindowSize from './hooks/useWindowSize';
 //    - Authenticated users from `/signin` or `/signup` → to `/home`
 //    - Unauthenticated users from protected pages → to `/signin`
 
-
-function RequireAuth({ children }:any) {
-  const { isAuthenticated, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
-  return isAuthenticated ? children : <Navigate to="/signin" />;
-}
-
-function RedirectIfAuth({ children }:any) {
-  const { isAuthenticated, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
-  return isAuthenticated ? <Navigate to="/home" /> : children;
-}
 
 function AuthLayout({ children }:any) {
   return (

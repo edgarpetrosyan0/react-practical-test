@@ -14,7 +14,9 @@ export const UserDetails: React.FC = () => {
         .then((res) => {
           if (res) setUser(res);
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
+          
         });
     }
   }, [id]);

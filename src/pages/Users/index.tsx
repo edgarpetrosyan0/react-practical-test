@@ -14,7 +14,7 @@ export const Users: React.FC = () => {
         if (res) setUsers(res);
         else toast.error("Failed to load users.");
       })
-      .catch(() => toast.error("Unexpected error while loading users."));
+      .catch((error) => toast.error(error));
   }, []);
 
   return (
