@@ -15,7 +15,10 @@ export const Signin: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [form, setForm] = useState<FormFields>({ email: '', password: '' });
+  const [form, setForm] = useState<FormFields>({
+    email: "eve.holt@reqres.in",
+    password: "cityslicka"
+});
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 

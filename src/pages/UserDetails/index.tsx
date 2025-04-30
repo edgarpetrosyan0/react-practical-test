@@ -12,11 +12,12 @@ export const UserDetails: React.FC = () => {
     if (id) {
       getUserById(id)
         .then((res) => {
-          if (res) setUser(res);
+          if (res){
+            setUser(res);
+          }
         })
         .catch((error) => {
           console.log(error);
-          
         });
     }
   }, [id]);

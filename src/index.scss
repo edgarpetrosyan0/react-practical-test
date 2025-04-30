@@ -1,7 +1,8 @@
 // TODO make global variables for example brand colors, global styles and etc...
 html {
   height: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 body {
@@ -18,4 +19,8 @@ body {
   --black: #222222;
   --border-radius: 6px;
   --gray-border:#6b7280;
+}
+
+.main {
+  margin: 3rem;
 }

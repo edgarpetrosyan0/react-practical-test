@@ -19,6 +19,8 @@ export const Home: React.FC = () => {
       })
   }, []);
 
+  if (!user) return <div>Loading...</div>;
+
   return (
     <div className={styles.container}>
       {user && <UserCard {...user} />}

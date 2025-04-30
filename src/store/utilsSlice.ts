@@ -4,7 +4,6 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 export interface UtilsState {
     device?: { mode: "mobile" | "tablet" | "desktop", width: number, height: number };
     isAuthenticated: boolean,
-
 }
 
 const initialState: UtilsState = {

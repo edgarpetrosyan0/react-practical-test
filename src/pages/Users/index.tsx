@@ -11,11 +11,16 @@ export const Users: React.FC = () => {
   useEffect(() => {
     getUsers()
       .then(res => {
-        if (res) setUsers(res);
-        else toast.error("Failed to load users.");
+        if (res) {
+          setUsers(res);
+        }
+        else {
+          toast.error("Failed to load users.");
+        }
       })
       .catch((error) => toast.error(error));
   }, []);
+
 
   return (
     <div>
