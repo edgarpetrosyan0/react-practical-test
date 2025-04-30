@@ -17,6 +17,7 @@ export const Signup: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  
   const validateEmail = (value: string): string => {
     if (!value.trim()) return 'Email is required';
     if (!emailRegexp.test(value)) return 'Invalid email address';
@@ -59,16 +60,17 @@ export const Signup: React.FC = () => {
     setIsSubmitting(true);
 
     const signupCall = async () => {
-      await api.post('/register', { email: form.email, password: form.password });
+      const response = await api.post('/register', { email: form.email, password: form.password });
+      return response.data;
     };
 
     const signinCall = async () => {
       const response = await api.post('/login', { email: form.email, password: form.password });
-      return response.data.token; 
+      return response.data.token;
     };
 
     try {
-      const [signupResult, signinToken] = await Promise.all([signupCall(), signinCall()]);//?????
+      const [_, signinToken] = await Promise.allWithMode([signupCall, signinCall], 'recursive');
 
        if (signinToken) {
         localStorage.setItem('token', signinToken);
@@ -76,11 +78,12 @@ export const Signup: React.FC = () => {
         dispatch(setAuthentication(true));  // Update Redux state
 
         navigate('/home');
+
       } else {
         console.error('Login failed after signup.');
       }
     } catch (error) {
-      console.error('Error during registration or login:', error);
+      console.error('Error registration or login:', error);
     } 
   };
 
@@ -122,3 +125,7 @@ export const Signup: React.FC = () => {
     </div>
   );
 };
+
+// TODO make sign up page with small validations, don't use <form> element, and when there is an error in any field when unfocus, the error is triggered, when typing in the field , remove the  error
+// registered when pressing the enter button and clicking sign-in button
+ // sign in after registration with Promise.allWithMode , for example Promise.allWithMode([singupcall(), signincall()])

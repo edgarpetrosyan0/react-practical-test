@@ -11,12 +11,42 @@ interface Date {
 
 // TODO implement promise.all function but with small changes
 // so example pas argument -> [promise, promise] call second promise after first promise resolving
+
+
 interface PromiseConstructor {
-    allWithMode<T>(
-      promises: Array<Promise<T> | ((res?: any) => Promise<T>) >,
-      mode: 'recursive'
-    ): Promise<T[]>;
+  allWithMode<T>(
+    promises: Array<Promise<T> | ((res?: any) => Promise<T>)>,
+    mode: 'recursive'
+  ): Promise<T[]>;
 };
+
+// little research
+Promise.allWithMode = async function (items, mode) {
+  const results = [];
+  let lastResult = undefined;
+
+  if (mode === 'recursive') {
+    for (const item of items) {
+      let result;
+
+      if (typeof item === 'function') {
+
+        result = await item(lastResult);
+
+      } else {
+        result = await item;
+      }
+
+      results.push(result);
+      lastResult = result;
+    }
+
+    return results;
+  } else {
+    throw new Error("Only 'recursive' mode");
+  }
+};
+
 
 type Size = "small" | "middle" | "large";
 
@@ -25,7 +55,7 @@ interface User {
   first_name: string;
   last_name: string;
   email: string;
-  avatar:string
+  avatar: string
 
   // "id": 7,
   // "email": "michael.lawson@reqres.in",
