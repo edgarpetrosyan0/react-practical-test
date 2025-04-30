@@ -84,7 +84,7 @@ export const Signup: React.FC = () => {
 
     try {
 
-      const [signupResponse, signinToken] = await Promise.allWithMode([ //Promise.all()
+      const [signupResponse, signinToken] = await Promise.allWithMode([ //Promise.all() ???
         signupCall(),
         signinCall(),
       ], 'recursive');
