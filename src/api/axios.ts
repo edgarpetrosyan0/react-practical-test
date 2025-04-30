@@ -31,12 +31,12 @@ api.interceptors.response.use(
       console.error('Network Error:', error.message);
     } else {
       console.error(`API Error [${status}]:`, message);
-
-      if (status === 401) {
-        console.error('Unauthorized');
-        localStorage.removeItem('token');
-        window.location.href = '/signin';
-      }
+    }
+    
+    if (status === 401) {
+      console.error('Unauthorized');
+      localStorage.removeItem('token');
+      window.location.href = '/signin';
     }
     return Promise.reject({status, message});
   }
