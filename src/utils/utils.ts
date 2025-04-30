@@ -2,8 +2,14 @@ export const exampleFn = () => {
     
 }
 
-// export function classNames(classObject:any) {
-//     return Object.keys(classObject)
-//       .filter((key) => classObject[key]) 
-//       .join(" ");
-//   }
+export const classnames = (classes:any) => {
+    let result = '';
+  
+    for (let key in classes) {
+      if (classes[key]) {
+        result += key + ' ';
+      }
+    }
+  
+    return result.trim(); 
+  }

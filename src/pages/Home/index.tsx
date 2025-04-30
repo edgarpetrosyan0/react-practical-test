@@ -25,3 +25,4 @@ export const Home: React.FC = () => {
     </div>
   );
 };
+    // TODO make home page and show random user info used https://reqres.in/api/users/:id or other api as you wish

@@ -7,12 +7,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     size?: Size;
     color?: "primary" | "gray" | "red";
     variant?: "text" | "contained" | "outlined" | "link";
-    children: any, // TODO remove this type when to inherit default attributes  ///???
 }
         
 export const Button: React.FC<ButtonProps> = (props) => {
     const { 
-        children, 
         size = "middle", 
         color = "primary",
         variant = "contained",
@@ -28,7 +26,6 @@ export const Button: React.FC<ButtonProps> = (props) => {
             className={cs}
             {...btnProps}
         >
-            {children}
         </button>
     );
 };
