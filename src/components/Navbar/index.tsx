@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export const Navbar: React.FC = () => {
     const navigate = useNavigate();
-    
+    const randomId = Math.floor(Math.random() * 12) + 1;
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/signin');
@@ -17,7 +18,7 @@ export const Navbar: React.FC = () => {
                 <ul className={styles.navList}>
                     <li><Link to="/home">Home</Link></li>
                     <li><Link to="/users">Users</Link></li>
-                    <li><Link to={`/users/${2}`}>User Details</Link></li> 
+                    <li><Link to={`/users/${randomId}`}>User Details</Link></li>
                     <li><button onClick={handleLogout} className={styles.logoutButton}>Logout</button></li>
                 </ul>
             </div>
@@ -25,3 +26,5 @@ export const Navbar: React.FC = () => {
     );
 };
 /* TODO make top navbar go to users page, home page, user details and logout */
+
+/*I don't understand how it should work User Details page?  */
