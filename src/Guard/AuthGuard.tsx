@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
 
 
-export function RequireAuth({ children }: any) {
+export const RequireAuth: React.FC<any> = ({ children }:any) => {
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) {
     return <Navigate to="/signin" />;
@@ -10,10 +10,11 @@ export function RequireAuth({ children }: any) {
   return children;
 }
 
-export function RedirectIfAuth({ children }: any) {
+export const RedirectIfAuth: React.FC<any> = ({ children }:any) => {
   const { isAuthenticated } = useAuth();
   if (isAuthenticated) {
     return <Navigate to="/home" />;
   }
   return children;
 }
+

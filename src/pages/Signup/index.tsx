@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, MouseEvent } from 'react';
+import { useState, ChangeEvent, MouseEvent, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
@@ -8,7 +8,6 @@ import { emailRegexp } from '../../utils';
 import { setAuthentication } from '../../store/utilsSlice';
 import { useDispatch } from 'react-redux';
 
-
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,35 +16,49 @@ export const Signup: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  
-  const validateEmail = (value: string): string => {
-    if (!value.trim()) return 'Email is required';
-    if (!emailRegexp.test(value)) return 'Invalid email address';
-    return '';
-  };
+  // TODO make sign up page with small validations, don't use <form> element, and when there is an error in any field when unfocus, the error is triggered, when typing in the field , remove the  error
+  // registered when pressing the enter button and clicking sign-in button
+  // sign in after registration with Promise.allWithMode , for example Promise.allWithMode([singupcall(), signincall()])
 
-  const validatePassword = (value: string): string => {
-    if (!value.trim()) return 'Password is required';
+  const validateEmail = useCallback((value: string): string => {
+    if (!value.trim()) {
+      return 'Email is required'
+    };
+    if (!emailRegexp.test(value)) {
+      return 'Invalid email address'
+    };
+
     return '';
-  };
+  }, []);
+
+  const validatePassword = useCallback((value: string): string => {
+    if (!value.trim()) {
+      return 'Password is required'
+    };
+    return '';
+  }, []);
 
   const handleChange = (field: 'email' | 'password', value: string) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      [field]: value,
+    setForm((prevForm) => (
+      {
+        ...prevForm,
+        [field]: value,
+      }
+    ));
 
-    }));
-
+    // Reset errors on input change
     if (errors[field]) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [field]: '',
-      }));
+      setErrors((prevErrors) => (
+        {
+          ...prevErrors,
+          [field]: '',
+        }
+      ));
     }
   };
 
   const handleSignup = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const newEmailError = validateEmail(form.email);
     const newPasswordError = validatePassword(form.password);
@@ -70,11 +83,16 @@ export const Signup: React.FC = () => {
     };
 
     try {
-      const [_, signinToken] = await Promise.allWithMode([signupCall, signinCall], 'recursive');
 
-       if (signinToken) {
+      const [signupResponse, signinToken] = await Promise.allWithMode([ //Promise.all()
+        signupCall(),
+        signinCall(),
+      ], 'recursive');
+
+      if (signinToken) {
+
         localStorage.setItem('token', signinToken);
-        
+
         dispatch(setAuthentication(true));  // Update Redux state
 
         navigate('/home');
@@ -84,7 +102,7 @@ export const Signup: React.FC = () => {
       }
     } catch (error) {
       console.error('Error registration or login:', error);
-    } 
+    }
   };
 
   return (
@@ -119,13 +137,9 @@ export const Signup: React.FC = () => {
           {isSubmitting ? 'Registering...' : 'Sign Up'}
         </Button>
         <p className={styles.redirect}>
-          Already have an account? <Link to="/signin">Sign in</Link>
+          <Link to="/signin">Sign in</Link>
         </p>
       </div>
     </div>
   );
 };
-
-// TODO make sign up page with small validations, don't use <form> element, and when there is an error in any field when unfocus, the error is triggered, when typing in the field , remove the  error
-// registered when pressing the enter button and clicking sign-in button
- // sign in after registration with Promise.allWithMode , for example Promise.allWithMode([singupcall(), signincall()])

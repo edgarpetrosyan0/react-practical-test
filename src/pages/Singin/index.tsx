@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
@@ -8,6 +8,8 @@ import { emailRegexp } from '../../utils';
 import { setAuthentication } from '../../store/utilsSlice';
 import { useDispatch } from 'react-redux';
 
+// TODO make sign in page with small validations dont used <form> element, and when have error any fields when blured error trigged, when typeing in the field remove error
+    // signed when press enter button and mouse clicking signin button
 
 export const Signin: React.FC = () => {
   const navigate = useNavigate();
@@ -17,44 +19,59 @@ export const Signin: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateEmail = (value: string) => {
-    if (!value.trim()) return 'Email is required';
-    if (!emailRegexp.test(value)) return 'Invalid email format';
-    return '';
-  };
 
-  const validatePassword = (value: string) => {
-    if (!value.trim()) return 'Password is required';
-    return '';
-  };
-
-  const handleChange = (field: 'email' | 'password', value: string) => {
-    setForm((prev) => (
-      { ...prev, [field]: value }
+  const validateEmail = useCallback((value: string) => {
+    if (!value.trim()){
+      return 'Email is required';
+    }
     
-    ));
-    if (errors[field]) {
-      if (field === 'email') setErrors((prev) => ({
-        ...prev, email: validateEmail(value)
+    if (!emailRegexp.test(value)){
+      return 'Invalid email format';
+    }
+    return '';
+  }, []);
+
+  const validatePassword = useCallback((value: string) => {
+    if (!value.trim()){
+      return 'Password is required';
+    }
+    return '';
+  }, []);
+
+  const handleChange = useCallback(
+    (field: 'email' | 'password', value: string) => {
+
+      setForm((prev) => ({
+        ...prev, [field]: value
       }));
 
-      if (field === 'password') setErrors((prev) => (
-        {
+      if (errors[field]) {
+
+        if (field === 'email') setErrors((prev) => ({
+          ...prev, email: validateEmail(value)
+        }));
+
+        if (field === 'password') setErrors((prev) => ({
           ...prev, password: validatePassword(value)
         }));
-    }
-  };
 
-  const validateForm = () => {
+      }
+
+    },
+    [errors, validateEmail, validatePassword]
+  );
+
+  const validateForm = useCallback(() => {
     const emailError = validateEmail(form.email);
     const passwordError = validatePassword(form.password);
 
     setErrors({ email: emailError, password: passwordError });
 
     return !emailError && !passwordError;
-  };
+  }, [form.email, form.password, validateEmail, validatePassword]);
 
-  const handleSignin = async () => {
+
+  const handleSignin = useCallback(async () => {
     if (!validateForm()) return;
 
     try {
@@ -65,24 +82,22 @@ export const Signin: React.FC = () => {
       if (!token) throw new Error('No token in response');
 
       localStorage.setItem('token', token);
-      
-      dispatch(setAuthentication(true));  // Update Redux state
+
+      dispatch(setAuthentication(true)); // Update Redux state
 
       navigate('/home');
-      
+
     } catch (error) {
       console.error('Login failed:', error);
       alert('Invalid credentials');
-    }
-  };
+    } 
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  }, [dispatch, form, navigate, validateForm]);
+
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <div className={styles.form}>
         <h2>Sign in</h2>
         <Input
           label="Email"
@@ -116,7 +131,6 @@ export const Signin: React.FC = () => {
           placeholder="Enter your password"
         />
 
-        <br />
         <Button
           type="button"
           size="middle"
@@ -127,10 +141,13 @@ export const Signin: React.FC = () => {
         >
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </Button>
+
         <p className={styles.redirect}>
           <Link to="/signup">Sign Up</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 };
+
+/*useCallback hook memoize the functions for better performance and unnecessary re-renders. */
