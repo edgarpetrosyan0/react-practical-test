@@ -20,45 +20,59 @@ export const Signup: React.FC = () => {
   // registered when pressing the enter button and clicking sign-in button
   // sign in after registration with Promise.allWithMode , for example Promise.allWithMode([singupcall(), signincall()])
 
-  const validateEmail = useCallback((value: string): string => {
-    if (!value.trim()) {
-      return 'Email is required'
-    };
-    if (!emailRegexp.test(value)) {
-      return 'Invalid email address'
-    };
-
-    return '';
-  }, []);
-
-  const validatePassword = useCallback((value: string): string => {
-    if (!value.trim()) {
-      return 'Password is required'
-    };
-    return '';
-  }, []);
-
-  const handleChange = (field: 'email' | 'password', value: string) => {
-    setForm((prevForm) => (
-      {
-        ...prevForm,
-        [field]: value,
-      }
-    ));
-
-    // Reset errors on input change
-    if (errors[field]) {
-      setErrors((prevErrors) => (
-        {
-          ...prevErrors,
-          [field]: '',
-        }
-      ));
+  const validateEmail = useCallback((value: string) => {
+    if (!value.trim()){
+      return 'Email is required';
     }
-  };
+    
+    if (!emailRegexp.test(value)){
+      return 'Invalid email format';
+    }
+    return '';
+  }, []);
 
-  const handleSignup = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const validatePassword = useCallback((value: string) => {
+    if (!value.trim()){
+      return 'Password is required';
+    }
+    return '';
+  }, []);
+
+  const handleChange = useCallback(
+    (field: 'email' | 'password', value: string) => {
+
+      setForm((prev) => ({
+        ...prev, [field]: value
+      }));
+
+      if (errors[field]) {
+
+        if (field === 'email') setErrors((prev) => ({
+          ...prev, email: validateEmail(value)
+        }));
+
+        if (field === 'password') setErrors((prev) => ({
+          ...prev, password: validatePassword(value)
+        }));
+
+      }
+
+    },
+    [errors, validateEmail, validatePassword]
+  );
+
+  const validateForm = useCallback(() => {
+    const emailError = validateEmail(form.email);
+    const passwordError = validatePassword(form.password);
+
+    setErrors({ email: emailError, password: passwordError });
+
+    return !emailError && !passwordError;
+  }, [form.email, form.password, validateEmail, validatePassword]);
+
+
+  const handleSignup = async () => {
+    if (!validateForm()) return;
 
     const newEmailError = validateEmail(form.email);
     const newPasswordError = validatePassword(form.password);

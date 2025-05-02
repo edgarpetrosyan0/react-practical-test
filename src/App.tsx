@@ -18,6 +18,8 @@ const router = createBrowserRouter([
     path: '/',
     element: <Navigate to="/signin" />,
   },
+
+   /*when authenticated) */
   {
     path: '/home',
     element: (
@@ -42,6 +44,8 @@ const router = createBrowserRouter([
       </RequireAuth>
     ),
   },
+  /*  */
+  
   {
     path: '/signin',
     element: (

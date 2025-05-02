@@ -9,7 +9,7 @@ import { setAuthentication } from '../../store/utilsSlice';
 import { useDispatch } from 'react-redux';
 
 // TODO make sign in page with small validations dont used <form> element, and when have error any fields when blured error trigged, when typeing in the field remove error
-    // signed when press enter button and mouse clicking signin button
+// signed when press enter button and mouse clicking signin button
 
 export const Signin: React.FC = () => {
   const navigate = useNavigate();

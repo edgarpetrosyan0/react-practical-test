@@ -4,9 +4,10 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    "x-api-key": process.env.REACT_APP_API_KEY, 
+    "x-api-key": process.env.REACT_APP_API_KEY, // x-api-key Fix for invalid credentials.
   },
 });
+
 
 // Add Authorization token to headers
 api.interceptors.request.use((config) => {
