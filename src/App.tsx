@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Home, NotFound, Signin, Signup, UserDetails, Users } from './pages';
 import { AuthLayout } from './layouts/AuthLayout';
 import { RedirectIfAuth, RequireAuth } from './guard/AuthGuard';
