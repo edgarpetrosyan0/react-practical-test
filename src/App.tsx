@@ -68,6 +68,7 @@ const router = createBrowserRouter([
 function App() {
   // TODO create useWindowSize custom hook, and store window size and device information in the redux utilsSlice.ts used detectDevice action
   // useWindowSize();
+  // Show a loading component while the system determines whether you are authenticated.
 
   useWindowSize()
 
