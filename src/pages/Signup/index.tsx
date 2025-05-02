@@ -85,7 +85,7 @@ export const Signup: React.FC = () => {
     try {
 
       const [signupResponse, signinToken] = await Promise.allWithMode([ //Promise.all() 
-      // /*I don't understand how it should work allWithMode?  */
+      /*I don't understand how it should work allWithMode? */
 
         signupCall(),
         signinCall(),

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Home, NotFound, Signin, Signup, UserDetails, Users } from './pages';
 import { AuthLayout } from './layouts/AuthLayout';
 import { RedirectIfAuth, RequireAuth } from './guard/AuthGuard';
@@ -12,6 +12,59 @@ import { useWindowSize } from './hooks/useWindowSize';
 //    - Authenticated users from `/signin` or `/signup` → to `/home`
 //    - Unauthenticated users from protected pages → to `/signin`
 
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigate to="/signin" />,
+  },
+  {
+    path: '/home',
+    element: (
+      <RequireAuth>
+        <AuthLayout><Home /></AuthLayout>
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/users',
+    element: (
+      <RequireAuth>
+        <AuthLayout><Users /></AuthLayout>
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/users/:id',
+    element: (
+      <RequireAuth>
+        <AuthLayout><UserDetails /></AuthLayout>
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/signin',
+    element: (
+      <RedirectIfAuth>
+        <Signin />
+      </RedirectIfAuth>
+    ),
+  },
+  {
+    path: '/signup',
+    element: (
+      <RedirectIfAuth>
+        <Signup />
+      </RedirectIfAuth>
+    ),
+  },
+  {
+    path: '*',
+    element: <NotFound />,
+  },
+]);
+
+
 function App() {
   // TODO create useWindowSize custom hook, and store window size and device information in the redux utilsSlice.ts used detectDevice action
   // useWindowSize();
@@ -20,57 +73,7 @@ function App() {
 
   return (
     <div className="App">
-
-      {/* TODO Create a layout for authenticated users, using the <Navbar /> component along with the page component. */}
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/home"
-            element={
-              <RequireAuth>
-                <AuthLayout><Home /></AuthLayout>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/users"
-            element={
-              <RequireAuth>
-                <AuthLayout><Users /></AuthLayout>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/users/:id"
-            element={
-              <RequireAuth>
-                <AuthLayout><UserDetails /></AuthLayout>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              <RedirectIfAuth>
-                <Signin />
-              </RedirectIfAuth>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <RedirectIfAuth>
-                <Signup />
-              </RedirectIfAuth>
-            }
-          />
-          {/* Redirect root */}
-          <Route path="/" element={<Navigate to="/signin" />} />
-
-          {/* 404 Not Found */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </div>
   );
 }
