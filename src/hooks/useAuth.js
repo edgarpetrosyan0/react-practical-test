@@ -7,8 +7,11 @@ export function useAuth() {
   const { isAuthenticated } = useSelector((state) => state.utils);
 
   useEffect(() => {
+
     const token = localStorage.getItem('token');
-    dispatch(setAuthentication(!!token));
+
+    dispatch(setAuthentication(!!token)); //token convert bool
+
   }, [dispatch]);
 
   return { isAuthenticated};

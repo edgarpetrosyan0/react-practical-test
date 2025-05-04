@@ -3,7 +3,8 @@ import { Home, NotFound, Signin, Signup, UserDetails, Users } from './pages';
 import { AuthLayout } from './layouts/AuthLayout';
 import { RedirectIfAuth, RequireAuth } from './guard/AuthGuard';
 import { useWindowSize } from './hooks/useWindowSize';
- 
+import { useAuth } from './hooks';
+
 // TODO: Add route guards based on authentication state
 // - If the user IS authenticated, prevent access to `/signin` and `/signup` routes
 // - If the user is NOT authenticated, prevent access to `/home`, `/users`, and `/users/:id`
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
     element: <Navigate to="/signin" />,
   },
 
-   /*when authenticated) */
+  /*when authenticated */
   {
     path: '/home',
     element: (
@@ -45,7 +46,8 @@ const router = createBrowserRouter([
     ),
   },
   /*  */
-  
+
+  /* PublicRoute unauthenticated users */
   {
     path: '/signin',
     element: (
@@ -72,9 +74,14 @@ const router = createBrowserRouter([
 function App() {
   // TODO create useWindowSize custom hook, and store window size and device information in the redux utilsSlice.ts used detectDevice action
   // useWindowSize();
-  // Show a loading component while the system determines whether you are authenticated.
-
   useWindowSize()
+
+  // Show a loading component while the system determines whether you are authenticated.
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="App">

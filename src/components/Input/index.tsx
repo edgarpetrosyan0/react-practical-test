@@ -35,14 +35,14 @@ export const Input: React.FC<InputProps> = (props) => {
     [styles.Disabled]: restProps.disabled,  
     [styles.Error]: error, 
     [styles[`prefix-${prefixPosition}`]]: true, 
-    [styles.className]: className,  
+    [className || ""]: !!className
   });
 
   const csInput = classnames({
     [styles.inputElement]: true,
     [styles.inputSuccess]: !error && !!restProps.value,
     [styles.inputError]: !!error,
-    [styles.className]: className ?? "",
+    [className ?? ""]: !!className
   });
 
   return (

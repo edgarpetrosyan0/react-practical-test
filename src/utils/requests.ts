@@ -2,7 +2,7 @@ import api from "../api/axios";
 
 // Example type — update based on your backend response structure
 
-export const getUsers = async (): Promise<User[]> => {
+export const getUsers = async (): Promise<User[]> => { // Return type
   try {
       const response = await api.get('/users');
       console.log(response.data);
