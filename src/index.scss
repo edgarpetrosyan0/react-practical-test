@@ -1,4 +1,15 @@
 // TODO make global variables for example brand colors, global styles and etc...
+
+:root {
+  --blue: #1478a1;
+  --gray: #cccccc;
+  --red: #e74c3c;
+  --white: #ffffff;
+  --black: #222222;
+  --border-radius: 6px;
+  --gray-border:#6b7280;
+}
+
 html {
   height: 100%;
   overflow-x: auto;
@@ -11,15 +22,6 @@ body {
   font-family: sans-serif;
 }
 
-:root {
-  --blue: #1478a1;
-  --gray: #cccccc;
-  --red: #e74c3c;
-  --white: #ffffff;
-  --black: #222222;
-  --border-radius: 6px;
-  --gray-border:#6b7280;
-}
 
 .main {
   margin: 3rem;

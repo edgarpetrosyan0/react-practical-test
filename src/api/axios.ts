@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// TODO global configure axios with .env file api base url
+
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: {
