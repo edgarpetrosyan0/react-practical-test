@@ -17,8 +17,10 @@ Date.prototype.add = function (value: number, unit: 'days' | 'months' | 'years')
     return newDate;
 };
 
-Date.prototype.subtract = function (value: number, unit: 'days' | 'months' | 'years'): Date {
-    return this.add(-value, unit);
+Date.prototype.subtract = function(days):Date {
+    const currentDate = new Date(this);
+    currentDate.setDate(this.getDate() - days);
+    return currentDate;
 };
 
 Date.prototype.sum = function (otherDate: Date): Date {
@@ -38,10 +40,6 @@ Date.prototype.log = function (): undefined {
 };
 
 
-// Array.prototype.toUpperCase = function() {
-//     return this.map(element => element.toUpperCase());
-// };
-// export { };
 
 // export function subtractFromDate(date: Date, value: number, unit: 'days' | 'months' | 'years'): Date {
 //     return addToDate(date, -value, unit);
@@ -50,3 +48,34 @@ Date.prototype.log = function (): undefined {
 //   export function sumDates(date1: Date, date2: Date): Date {
 //     return new Date(date1.getTime() + date2.getTime());
 //   }
+
+// Function.prototype.myBind = function(context, ...args) {
+//     const fn = this;
+//     return function(...newArgs) {
+//         return fn.apply(context, [...args, ...newArgs]);
+//     };
+// };
+
+// Array.prototype.myMap = function(callback, thisArg) {
+//     const result = [];
+//     for (let i = 0; i < this.length; i++) {
+//         if (i in this) {
+//             result.push(callback.call(thisArg, this[i], i, this));
+//         }
+//     }
+//     return result;
+// };
+
+// Array.prototype.myFilter = function(callback, thisArg) {
+//     const result = [];
+//     for (let i = 0; i < this.length; i++) {
+//         if (i in this) {  // skip holes in sparse arrays
+//             const element = this[i];
+//             if (callback.call(thisArg, element, i, this)) {
+//                 result.push(element);
+//             }
+//         }
+//     }
+//     return result;
+// };
+

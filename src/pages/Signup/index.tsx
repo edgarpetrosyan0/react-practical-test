@@ -12,7 +12,13 @@ export const Signup: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [form, setForm] = useState<FormFields>({ email: '', password: '' });
+  const [form, setForm] = useState<FormFields>(
+    {  
+    email: 'eve.holt@reqres.in',
+    password: 'pistol' 
+  }
+  );
+
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -73,46 +79,55 @@ export const Signup: React.FC = () => {
 
   const handleSignup = async () => {
     if (!validateForm()) return;
-
+  
     const newEmailError = validateEmail(form.email);
     const newPasswordError = validatePassword(form.password);
-
+  
     setErrors({
       email: newEmailError,
       password: newPasswordError,
     });
-
+  
     if (newEmailError || newPasswordError) return;
-
+  
     setIsSubmitting(true);
-
+  
     const signupCall = async () => {
-      const response = await api.post('/register', { email: form.email, password: form.password });
+      const response = await api.post('/register', {
+        email: form.email,
+        password: form.password
+      });
+      console.log('signup response:', response.data);
       return response.data;
     };
-
+  
     const signinCall = async () => {
-      const response = await api.post('/login', { email: form.email, password: form.password });
+      const response = await api.post('/login', {
+        email: form.email,
+        password: form.password
+      });
+      console.log('signin response:', response.data);
       return response.data.token;
     };
-
+  
     try {
-
-      const [signupResponse, signinToken] = await Promise.allWithMode([ //Promise.all() 
-      /*I don't understand how it should work allWithMode? */
-
+      
+      const [signupResponse, signinToken] = await Promise.all([
         signupCall(),
         signinCall(),
-      ], 'recursive');
+      ]);
+
+      console.log('Signup successful:', signupResponse);
+      console.log('Signin successful, token:', signinToken);
 
       if (signinToken) {
-
+        console.log(signinToken);
+        
         localStorage.setItem('token', signinToken);
-
+        
         dispatch(setAuthentication(true));  // Update Redux state
 
         navigate('/home');
-
       } else {
         console.error('Login failed after signup.');
       }
@@ -120,7 +135,7 @@ export const Signup: React.FC = () => {
       console.error('Error registration or login:', error);
     }
   };
-
+  
   return (
     <div className={styles.container}>
       <div className={styles.form}>

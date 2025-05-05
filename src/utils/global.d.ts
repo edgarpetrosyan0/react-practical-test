@@ -30,7 +30,6 @@ Promise.allWithMode = async function (items, mode) {
       let result;
 
       if (typeof item === 'function') {
-
         result = await item(lastResult);
 
       } else {

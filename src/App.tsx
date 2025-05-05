@@ -83,6 +83,12 @@ function App() {
     return <div>Loading...</div>;
   }
 
+  // const date1 = new Date('2025-05-01');
+  // const date2 = new Date('2025-05-10');
+  
+  // const diff = date1.difference(date2);
+  // console.log('Difference in days:', diff);
+  
   return (
     <div className="App">
       <RouterProvider router={router} />
