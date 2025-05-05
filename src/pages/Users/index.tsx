@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUsers } from '../../utils/requests';
 import { UserCard } from '../../components/UserCard';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import styles from './styles.module.scss';
 
 
@@ -29,6 +29,7 @@ export const Users: React.FC = () => {
       {users.map((user) => (
         <UserCard key={user.id} {...user} />
       ))}
+      <ToastContainer />
       </div>
     </div>
   );

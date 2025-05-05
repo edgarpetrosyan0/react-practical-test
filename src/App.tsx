@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <Navigate to="/signin" />,
   },
 
-  /*when authenticated */
+  /* PrivateRoute/RequireAuth when authenticated */
   {
     path: '/home',
     element: (
