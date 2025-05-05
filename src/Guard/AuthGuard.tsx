@@ -10,7 +10,7 @@ export const RequireAuth: React.FC<any> = ({ children }:any) => {
   }
 
   return children;
-}
+} 
 
 export const RedirectIfAuth: React.FC<any> = ({ children }:any) => {
   const { isAuthenticated } = useAuth();
