@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+export interface Device  {
+    mode: "mobile" | "tablet" | "desktop",
+    width: number,
+    height: number
+}
 export interface UtilsState {
-    device?: { mode: "mobile" | "tablet" | "desktop", width: number, height: number };
+    device?: Device;
     isAuthenticated: boolean | null,
 }
 
@@ -16,15 +21,16 @@ export const utilsSlice = createSlice({
     name: 'utils',
     initialState,
     reducers: {
-        detectDevice: (_state, action: PayloadAction<any>) => {
+        
+        detectDevice: (_state, action: PayloadAction<Device>) => {
             return { ..._state, device: action.payload }
         },
-        
+
         setAuthentication: (state, action: PayloadAction<boolean>) => {
             state.isAuthenticated = action.payload;
-          },
+        },
     },
 })
 
-export const { detectDevice,setAuthentication  } = utilsSlice.actions;
+export const { detectDevice, setAuthentication } = utilsSlice.actions;
 export default utilsSlice.reducer;

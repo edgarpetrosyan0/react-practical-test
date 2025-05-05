@@ -9,7 +9,7 @@ export const RequireAuth: React.FC<any> = ({ children }:any) => {
     return <Navigate to="/signin" />;
   }
 
-  return children;
+  return <>{children}</>;
 } 
 
 export const RedirectIfAuth: React.FC<any> = ({ children }:any) => {
@@ -19,6 +19,6 @@ export const RedirectIfAuth: React.FC<any> = ({ children }:any) => {
     return <Navigate to="/home" />;
   }
   
-  return children;
+  return <>{children}</>;
 }
 
